@@ -20,23 +20,6 @@ function updateGreeting() {
 }
 
 
-enBtn.addEventListener('click', () => {
-    currentLanguage = 'en';
-    updateGreeting();
-});
-
-ruBtn.addEventListener('click', () => {
-    currentLanguage = 'ru';
-    updateGreeting();
-});
-
-kgBtn.addEventListener('click', () => {
-    currentLanguage = 'kg';
-    updateGreeting();
-});
-
-
-updateGreeting();
 // 2. Положить в проект JSON-файлы, каждый из которых соответствует одному из языков. Внутри JSON-данных описаны одни и те же слова (например "человек", "дом", "хлеб") на соответствующем языке.
 JSON = {
     "man": "man",
