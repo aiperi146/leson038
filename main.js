@@ -153,3 +153,58 @@ document.getElementById('kgBtn').addEventListener('click', async () => {
 
 
 updateWords();
+// 4. Выбранный язык должен сохраняться при перезагрузке страницы или закрытии/открытии вкладки
+const languages2 = ['en', 'ru', 'kg'];
+let currentLanguage3 = localStorage.getItem('selectedLanguage') || 'en'; // Проверяем сохраненное значение или используем английский язык по умолчанию
+
+
+function saveLanguage(language) {
+    localStorage.setItem('selectedLanguage', language);
+}
+
+async function loadLanguage(language) {
+    const response = await fetch(`${language}.json`);
+    if (!response.ok) {
+        throw new Error(`Failed to load language data for ${language}`);
+    }
+    return await response.json();
+}
+
+
+async function updateWords() {
+    const wordsDiv = document.getElementById('words');
+    wordsDiv.innerHTML = '';
+
+    try {
+        const languageData = await loadLanguage(currentLanguage);
+        for (const key in languageData) {
+            const wordDiv = document.createElement('div');
+            const emoji = languageData[key];
+            wordDiv.textContent = `${emoji} ${key}`;
+            wordsDiv.appendChild(wordDiv);
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+document.getElementById('enBtn').addEventListener('click', async () => {
+    currentLanguage = 'en';
+    saveLanguage(currentLanguage);
+    await updateWords();
+});
+
+document.getElementById('ruBtn').addEventListener('click', async () => {
+    currentLanguage = 'ru';
+    saveLanguage(currentLanguage);
+    await updateWords();
+});
+
+document.getElementById('kgBtn').addEventListener('click', async () => {
+    currentLanguage = 'kg';
+    saveLanguage(currentLanguage);
+    await updateWords();
+});
+
+
+updateWords();
