@@ -208,3 +208,36 @@ document.getElementById('kgBtn').addEventListener('click', async () => {
 
 
 updateWords();
+/*Дополнительное задание на 20 баллов
+Сделайте функцию, которая принимает в себя неограниченное число массивов с числами.
+
+На выходе функция должна отдавать Map, ключами которого являются каждый из переданных массивов, а значениями - также массивы, но с уникальными значениями, отсортированными по возрастанию.
+
+Например:
+
+// если на входе был вот такой массив
+[14, 11, 42, 42, 15, 11, 14, 7]
+
+// значение для соответствующего элемента Map должно быть таким
+[7, 11, 14, 15, 42]
+Функцию вызвать с разными вариантами параметров (разные массивы с разными числами в разном порядке, в т.ч. повторящимися). Результаты вывести в консоль. */
+function uniqueSortedArrays(...arrays) {
+    const result = new Map();
+    
+    arrays.forEach(array => {
+        const uniqueSortedArray = Array.from(new Set(array)).sort((a, b) => a - b);
+        result.set(array, uniqueSortedArray);
+    });
+    
+    return result;
+}
+
+
+const input1 = [14, 11, 42, 42, 15, 11, 14, 7];
+const input2 = [1, 5, 3, 2, 1, 4, 5, 2];
+const input3 = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+const input4 = [6, 7, 8, 9, 5, 4, 3, 2, 1];
+const input5 = [4, 4, 4, 4, 4, 4, 4, 4, 4];
+
+const resultMap = uniqueSortedArrays(input1, input2, input3, input4, input5);
+console.log([...resultMap]);
