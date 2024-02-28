@@ -103,3 +103,53 @@ kgBtn.addEventListener('click', () => {
 });
 
 loadLanguages();
+/* 3. При выборе одного из языков подгружается соответствующий JSON-файл и слова их него отображаются на странице. Для очевидности можно снабдить их картинками или эмодзи, например отсюда https://getemoji.com/ (ниже пример для итальянского языка)
+🧑 persona
+🏠 casa
+🍞 pane */
+const languages1 = ['en', 'ru', 'kg'];
+let currentLanguage2 = 'en';
+
+async function loadLanguage(language) {
+    const response = await fetch(`${language}.json`);
+    if (!response.ok) {
+        throw new Error(`Failed to load language data for ${language}`);
+    }
+    return await response.json();
+}
+
+
+async function updateWords() {
+    const wordsDiv = document.getElementById('words');
+    wordsDiv.innerHTML = '';
+
+    try {
+        const languageData = await loadLanguage(currentLanguage);
+        for (const key in languageData) {
+            const wordDiv = document.createElement('div');
+            const emoji = languageData[key];
+            wordDiv.textContent = `${emoji} ${key}`;
+            wordsDiv.appendChild(wordDiv);
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+document.getElementById('enBtn').addEventListener('click', async () => {
+    currentLanguage = 'en';
+    await updateWords();
+});
+
+document.getElementById('ruBtn').addEventListener('click', async () => {
+    currentLanguage = 'ru';
+    await updateWords();
+});
+
+document.getElementById('kgBtn').addEventListener('click', async () => {
+    currentLanguage = 'kg';
+    await updateWords();
+});
+
+
+updateWords();
